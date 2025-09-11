@@ -25,7 +25,13 @@ cloudflare:
     # in the connection from cloudflared to your local service, not from the internet to cloudflared.
     # - hostname: hello.example.com
     #   service: hello_world
-
+    #
+    #
+  # Specifies the protocol used to establish a connection between cloudflared
+  # and the Cloudflare global network. Available values are auto, http2, h2mux,
+  # and quic. (default: auto)
+  # https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/install-and-setup/tunnel-guide/local/local-management/arguments/
+  protocol: ""
 image:
   repository: cloudflare/cloudflared
   pullPolicy: IfNotPresent
