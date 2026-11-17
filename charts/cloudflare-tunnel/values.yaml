@@ -70,6 +70,19 @@ securityContext:
     - ALL
   readOnlyRootFilesystem: true
 
+# Cloudflared has a /ready endpoint which returns 200 if and only if it has an
+# active connection to the edge. cloudflared reconnects to the edge by itself,
+# so a short edge disconnect must not restart the pod: failing on the first
+# probe restarted all replicas at once during a 2 second edge blip.
+livenessProbe:
+  httpGet:
+    path: /ready
+    port: 2000
+  failureThreshold: 6
+  initialDelaySeconds: 10
+  periodSeconds: 10
+  timeoutSeconds: 5
+
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
   # choice for the user. This also increases chances charts run on environments with little
