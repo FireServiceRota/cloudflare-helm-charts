@@ -95,6 +95,15 @@ resources: {}
   #   cpu: 100m
   #   memory: 128Mi
 
+# Limit voluntary disruptions (node drains, upgrades), so they can't take down
+# all tunnel replicas at once. maxUnavailable: 1 never blocks a drain, even
+# with a single replica; minAvailable can, and takes precedence when set.
+# Note: a PDB does not affect Deployment rolling updates.
+podDisruptionBudget:
+  enabled: true
+  maxUnavailable: 1
+  # minAvailable: 2
+
 nodeSelector: {}
 
 tolerations: []
