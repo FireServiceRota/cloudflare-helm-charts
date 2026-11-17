@@ -82,6 +82,13 @@ resources: {}
   #   cpu: 100m
   #   memory: 128Mi
 
+# Limit voluntary disruptions (node drains, upgrades), so they can't take down
+# all tunnel replicas at once. minAvailable takes precedence when set.
+podDisruptionBudget:
+  enabled: false
+  maxUnavailable: 1
+  # minAvailable: 2
+
 nodeSelector: {}
 
 tolerations: []
