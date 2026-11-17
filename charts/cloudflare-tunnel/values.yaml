@@ -83,6 +83,29 @@ livenessProbe:
   periodSeconds: 10
   timeoutSeconds: 5
 
+# Readiness only gates rollouts and PDB accounting (no Service routes to these
+# pods); traffic arrives over the edge connections. Together with
+# minReadySeconds and the strategy below, a rollout replaces one pod at a time
+# and waits until the new pod is connected to the edge, instead of replacing
+# all replicas at once.
+readinessProbe:
+  httpGet:
+    path: /ready
+    port: 2000
+  failureThreshold: 3
+  initialDelaySeconds: 5
+  periodSeconds: 5
+  timeoutSeconds: 5
+
+# Seconds a new pod must stay ready before the rollout continues.
+minReadySeconds: 30
+
+strategy:
+  type: RollingUpdate
+  rollingUpdate:
+    maxUnavailable: 0
+    maxSurge: 1
+
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
   # choice for the user. This also increases chances charts run on environments with little
