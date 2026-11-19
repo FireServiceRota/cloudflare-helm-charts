@@ -127,6 +127,16 @@ podDisruptionBudget:
   maxUnavailable: 1
   # minAvailable: 2
 
+# Scrape cloudflared's Prometheus metrics (served on :2000/metrics, port name
+# "metrics"), e.g. cloudflared_tunnel_ha_connections and
+# cloudflared_tunnel_tunnel_register_success to alert on edge connection churn.
+# The PodMonitor is only created if the cluster has the monitoring.coreos.com/v1 CRDs.
+podMonitor:
+  enabled: true
+  interval: 30s
+  scrapeTimeout: 10s
+  labels: {}
+
 nodeSelector: {}
 
 tolerations: []
